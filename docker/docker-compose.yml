@@ -1,0 +1,39 @@
+version: "3.5"
+services:
+  mysql:
+    build:
+      context: .
+      dockerfile: mysql/Dockerfile
+      args:
+        - LOCAL_UID=${LOCAL_UID}
+        - LOCAL_GID=${LOCAL_GID}
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    ports:
+      - ${MYSQL_LOCAL_PORT}:3306
+    volumes:
+      - "./mysql/database:/var/lib/mysql"
+  webserver:
+    image: nginx:alpine
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ${SYMFONY_APP_PATH}:/application
+    ports:
+      - ${NGINX_LOCAL_PORT}:80
+    depends_on:
+      - php-fpm
+  php-fpm:
+    build:
+      context: .
+      dockerfile: php-fpm/Dockerfile
+      args:
+        - LOCAL_UID=${LOCAL_UID}
+        - LOCAL_GID=${LOCAL_GID}
+    volumes:
+      - ./php-fpm/php-ini-overrides.ini:/usr/local/etc/php/conf.d/infrastructure-overrides.ini
+      - ${SYMFONY_APP_PATH}:/application
+    depends_on:
+      - mysql
