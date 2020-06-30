@@ -8,6 +8,7 @@ use DateTimeImmutable;
 
 class Example
 {
+    private int $id;
     private Title $title;
     private Description $description;
     private DateTimeImmutable $createdAt;
