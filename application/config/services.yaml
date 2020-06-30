@@ -39,3 +39,10 @@ services:
       autoconfigure: false
       tags:
         - { name: messenger.message_handler, bus: query.bus}
+
+    event_handlers:
+      namespace: App\Infrastructure\Message\
+      resource: '%kernel.project_dir%/src/Infrastructure/Message/**/*EventHandler.php'
+      autoconfigure: false
+      tags:
+        - { name: messenger.message_handler, bus: event.bus }
