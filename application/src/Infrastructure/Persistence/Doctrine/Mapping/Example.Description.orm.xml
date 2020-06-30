@@ -1,0 +1,5 @@
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping">
+    <embeddable name="App\Domain\Example\Description">
+        <field name="value" column="description" type="string" nullable="false" length="50" />
+    </embeddable>
+</doctrine-mapping>
