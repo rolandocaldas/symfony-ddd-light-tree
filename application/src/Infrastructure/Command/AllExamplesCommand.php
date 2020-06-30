@@ -32,6 +32,11 @@ class AllExamplesCommand extends Command
         $examples = $this->queryBus->dispatch(new ObtainAllQuery());
         $exampleList = [];
 
+        if ([] === $examples) {
+            $io->text('No examples to show');
+            return Command::SUCCESS;
+        }
+
         foreach ($examples AS $example) {
             $exampleList[] = [
                 'title' => $example->title(),
@@ -39,6 +44,7 @@ class AllExamplesCommand extends Command
                 'createdAt' => $example->createdAt()
             ];
         }
+
 
         $io->table(
             array_keys($exampleList[0]),
