@@ -9,3 +9,9 @@ composer update
 cd public
 php -S 0.0.0.0:80
 ```
+
+Activate Symfony Messenger doctrine transport
+
+```shell script
+sf messenger:setup-transports
+```
